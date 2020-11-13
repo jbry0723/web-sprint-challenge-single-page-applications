@@ -17,6 +17,7 @@ describe('formtester', ()=>{
 
     })
     it('submittest',()=>{
+        cy.get('input[name="name"]').type('Name goes here!')
         cy.get('.submitButton').should('not.be.disabled')
         
 

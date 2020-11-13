@@ -18,10 +18,12 @@ const initialPizzaInfo={
 const initialFormErrors={
     name:'',
 }
+const initialDisabled=true
 
 function Pizza(props) {
     const [pizzaInfo, setPizzaInfo]=useState(initialPizzaInfo)
     const [formErrors, setFormErrors]=useState(initialFormErrors)
+    const [disabled,setDisabled]=useState(initialDisabled)
 
     const onSubmit=evt=>{
         evt.preventDefault()
@@ -67,6 +69,13 @@ function Pizza(props) {
     }
     }
 
+    useEffect(()=>{
+        schema.isValid(pizzaInfo).then(valid=>{
+            setDisabled(!valid);
+
+        })
+    },[pizzaInfo])
+
     const onChange= evt => {
         const {name, value, type, checked}=evt.target;
         const correctValue=type==='checkbox'? checked: value;
@@ -76,7 +85,7 @@ function Pizza(props) {
 
     return (
         <div>
-            <form className='pizzaForm' onSubmit={onSubmit}>
+            <form className='pizzaForm'  onSubmit={onSubmit}>
                 <label>
                     Name
                     <input
@@ -145,7 +154,7 @@ function Pizza(props) {
                     />
 
                 </label>
-                <button className='submitButton'>Submit</button>
+                <button disabled={disabled} className='submitButton'>Submit</button>
             </form>
 
             <div>
